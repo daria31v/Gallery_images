@@ -1,4 +1,7 @@
+import axios from 'axios';
+
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 
 export default class NewsApiService{
     constructor() {
@@ -7,14 +10,17 @@ export default class NewsApiService{
 
      }
     async fetchImage() {
+        
+        
         try {
-            const url = `https://pixabay.com/api/?key=31608375-581536e59e6cd039daecb6e21&q=${this.searchQuery}&language=en&per_page=40&page=${this.page}`;
+            const BASE_URL = 'https://pixabay.com/api/';
+            const KEY = '31608375-581536e59e6cd039daecb6e21';
+            const url = `${BASE_URL}?key=${KEY}&q=${this.searchQuery}&language=en&per_page=40&page=${this.page}`;
             
             const resp = await fetch(url);
             if (!resp.ok) {
                 throw new Error(resp.statusText);
             }
-
             const data = await resp.json();
             console.log(data);
             if (data.total === 0) {
@@ -27,7 +33,6 @@ export default class NewsApiService{
             } else if(this.page === 1){
                 Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`);
             }
-               
             this.page += 1;
             return data.hits;
 
