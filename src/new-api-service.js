@@ -10,22 +10,23 @@ export default class NewsApiService{
 
      }
     async fetchImage() {
-        
-        
+                
         try {
             const BASE_URL = 'https://pixabay.com/api/';
             const KEY = '31608375-581536e59e6cd039daecb6e21';
-            const url = `${BASE_URL}?key=${KEY}&q=${this.searchQuery}&language=en&per_page=40&page=${this.page}`;
-            
+
+            const url = `${BASE_URL}?key=${KEY}&q=${this.searchQuery}&language=en&per_page=40&page=${this.page}`;        
             const resp = await fetch(url);
+            
+
             if (!resp.ok) {
                 throw new Error(resp.statusText);
             }
             const data = await resp.json();
             console.log(data);
-            if (data.total === 0) {
+            if (data.total === 0 ) {
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-                btnLoadMore.classList.add("is-hidden");
+                // 
                 
             } else if (data.hits.length === 0) {
                 Notify.warning("We're sorry, but you've reached the end of search results.");

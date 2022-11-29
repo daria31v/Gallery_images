@@ -14,33 +14,35 @@ btnLoadMore.classList.add("is-hidden");
 
 const newsApiService = new NewsApiService();
 
-
-
 form.addEventListener('submit', onSearch);
 btnLoadMore.addEventListener('click', onMoreImg);
 
 function onSearch(evt) {
   evt.preventDefault();
   newsApiService.query = evt.currentTarget.elements.searchQuery.value;
-
+  console.log(newsApiService.query)
+  
   if (newsApiService.query === '') {
-    return Notify.info('Please enter the query parameters.')
-    
+    return Notify.info('Please enter the query parameters.')  
   }
+  
+  
   newsApiService.resetPage();
   newsApiService.fetchImage().then(hits => {
     clearGalleryMarkup();
     creatMarkup(hits);
-    
     btnLoadMore.classList.remove("is-hidden");
     
+    if (hits.length === 0) {
+    btnLoadMore.classList.add("is-hidden");
+  }
+      
   })
-   
+ 
 }
 
 function onMoreImg() {
-  newsApiService.fetchImage().then(creatMarkup)
-  
+  newsApiService.fetchImage().then(creatMarkup)  
 }
 
 function clearGalleryMarkup() {
