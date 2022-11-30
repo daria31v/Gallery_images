@@ -10,34 +10,35 @@ const form = document.querySelector('#search-form');
 const btnLoadMore = document.querySelector('.load-more');
 const gallery = document.querySelector('.gallery');
 
-btnLoadMore.classList.add("is-hidden");
-
 const newsApiService = new NewsApiService();
-const limit = 40;
 
+btnLoadMore.classList.add("is-hidden");
 form.addEventListener('submit', onSearch);
 btnLoadMore.addEventListener('click', onMoreImg);
-
+const limit = 40;
+  
 async function onSearch(evt) {
   evt.preventDefault();
+  
+  
   newsApiService.query = evt.currentTarget.elements.searchQuery.value.trim();
   console.log(newsApiService.query)
-  
+
+
   if (newsApiService.query === '') {
     return Notify.info('Please enter the query parameters.')  
   }
-  
+   btnLoadMore.classList.add("is-hidden");  
   
   newsApiService.resetPage();
   try {
     await newsApiService.fetchImage().then(hits => {
       clearGalleryMarkup();
       creatMarkup(hits);
-      console.log(hits.length);
-               
+                 
       if (hits.length === limit) {
-         btnLoadMore.classList.remove("is-hidden");
-      }
+      btnLoadMore.classList.remove("is-hidden");   
+      } 
       
     })
   }
@@ -47,10 +48,15 @@ async function onSearch(evt) {
 }
 
 async function onMoreImg() {
+   
   try {
-    
-    await newsApiService.fetchImage().then(creatMarkup);
-  //  
+    await newsApiService.fetchImage().then(hits => {
+      creatMarkup(hits);
+      if (hits.length < limit) {
+        btnLoadMore.classList.add("is-hidden"); 
+      }
+    })
+
   }
   catch (err) {
             console.error(err)
