@@ -47,10 +47,14 @@ async function onSearch(evt) {
         }
 }
 
-function onMoreImg() {
-  newsApiService.fetchImage().then(creatMarkup)  
+async function onMoreImg() {
+  try {
+    await newsApiService.fetchImage().then(creatMarkup)
+  }
+  catch (err) {
+            console.error(err)
+        }
 }
-
 function clearGalleryMarkup() {
 gallery.innerHTML = "";
 }
