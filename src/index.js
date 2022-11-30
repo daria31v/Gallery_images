@@ -11,6 +11,7 @@ const btnLoadMore = document.querySelector('.load-more');
 const gallery = document.querySelector('.gallery');
 
 btnLoadMore.classList.add("is-hidden");
+
 const newsApiService = new NewsApiService();
 const limit = 40;
 
@@ -32,14 +33,16 @@ async function onSearch(evt) {
     await newsApiService.fetchImage().then(hits => {
       clearGalleryMarkup();
       creatMarkup(hits);
-      btnLoadMore.classList.remove("is-hidden");
-    
-      if (hits.length === 0) {
-        btnLoadMore.classList.add("is-hidden");
-      }
+      console.log(hits.length);
+      
       if (hits.length < limit) {
         btnLoadMore.classList.add("is-hidden");
       }
+      
+      if (hits.length >= limit) {
+         btnLoadMore.classList.remove("is-hidden");
+      }
+      
     })
   }
     catch (err) {
@@ -49,7 +52,8 @@ async function onSearch(evt) {
 
 async function onMoreImg() {
   try {
-    await newsApiService.fetchImage().then(creatMarkup)
+    await newsApiService.fetchImage().then(creatMarkup);
+ 
   }
   catch (err) {
             console.error(err)

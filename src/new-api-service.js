@@ -16,16 +16,17 @@ export default class NewsApiService {
     
         try {
             const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${this.searchQuery}&${params}&page=${this.page}`);
-            // console.log('response', response)
+            console.log('response', response)
             const data = response.data;
-            // console.log(data)
+            console.log(data);
+            const limit = 40;
             if (data.total === 0) {
+                
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             }
-            else if (data.hits.length === 0) {
+            else if (data.hits.length < limit) {
                 Notify.warning("We're sorry, but you've reached the end of search results.");
                 
-
             }
             else if (this.page === 1) {
                 Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`);
