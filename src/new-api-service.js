@@ -24,6 +24,7 @@ export default class NewsApiService {
             }
             else if (data.hits.length === 0) {
                 Notify.warning("We're sorry, but you've reached the end of search results.");
+                
 
             }
             else if (this.page === 1) {
