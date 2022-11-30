@@ -34,14 +34,11 @@ async function onSearch(evt) {
       clearGalleryMarkup();
       creatMarkup(hits);
       console.log(hits.length);
-
                
-      if (hits.length > limit) {
+      if (hits.length === limit) {
          btnLoadMore.classList.remove("is-hidden");
       }
-      else if (hits.length <= limit) {
-        btnLoadMore.classList.add("is-hidden");
-      }
+      
     })
   }
     catch (err) {
@@ -51,8 +48,9 @@ async function onSearch(evt) {
 
 async function onMoreImg() {
   try {
+    
     await newsApiService.fetchImage().then(creatMarkup);
-   
+  //  
   }
   catch (err) {
             console.error(err)
