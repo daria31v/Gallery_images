@@ -28,7 +28,7 @@ async function onSearch(evt) {
   if (newsApiService.query === '') {
     return Notify.info('Please enter the query parameters.')  
   }
-   btnLoadMore.classList.add("is-hidden");  
+  btnLoadMore.classList.add("is-hidden");  
   
   newsApiService.resetPage();
   try {
@@ -39,10 +39,7 @@ async function onSearch(evt) {
       if (hits.length === limit) {
       btnLoadMore.classList.remove("is-hidden");   
       }
-      if (hits.length < limit) {
-        notifyWarning();
-      }
-      
+           
     })
   }
     catch (err) {
@@ -55,10 +52,12 @@ async function onMoreImg() {
   try {
     await newsApiService.fetchImage().then(hits => {
       creatMarkup(hits);
+      
       if (hits.length < limit) {
-        btnLoadMore.classList.add("is-hidden"); 
-        notifyWarning();
+        btnLoadMore.classList.add("is-hidden");
+       
       }
+
     })
 
   }
@@ -110,7 +109,4 @@ let galleryImg = new SimpleLightbox('.photo-card a', {
 });
 galleryImg.refresh();
 
-}
-function notifyWarning() {
-  return Notify.warning("We're sorry, but you've reached the end of search results."); 
 }

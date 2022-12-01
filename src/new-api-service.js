@@ -13,26 +13,27 @@ export default class NewsApiService {
     const BASE_URL = 'https://pixabay.com/api/';
     const KEY = '31608375-581536e59e6cd039daecb6e21';
     const params = 'image_type=photo&orientation=horizontal&safesearch=true&per_page=40';
+    const quantityImg = 40;
+        
     
         try {
-            const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${this.searchQuery}&${params}&page=${this.page}`);
+            const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${this.searchQuery}&${params}&per_page=${quantityImg}&page=${this.page}`);
             console.log('response', response)
             const data = response.data;
             console.log(data);
             
             if (data.total === 0) {
-                
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             }
-            // else if            
-            //     (data.hits.length === 0) {
-            //     Notify.warning("We're sorry, but you've reached the end of search results.");              
-            // }
+            
             else if (this.page === 1) {
-                Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`);
+              console.log('INFO', Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`))
             }
+            else if (data.hits.length < quantityImg) {
+                console.log('Warning', Notify.warning("We're sorry, but you've reached the end of search results.")) 
+            }
+
               
-        
             this.page += 1;
             return data.hits;
             
