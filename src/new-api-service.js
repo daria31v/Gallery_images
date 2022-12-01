@@ -24,10 +24,10 @@ export default class NewsApiService {
                 
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             }
-            else if            
-                (data.hits.length === 0) {
-                Notify.warning("We're sorry, but you've reached the end of search results.");              
-            }
+            // else if            
+            //     (data.hits.length === 0) {
+            //     Notify.warning("We're sorry, but you've reached the end of search results.");              
+            // }
             else if (this.page === 1) {
                 Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`);
             }

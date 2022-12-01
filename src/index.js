@@ -38,7 +38,10 @@ async function onSearch(evt) {
                  
       if (hits.length === limit) {
       btnLoadMore.classList.remove("is-hidden");   
-      } 
+      }
+      if (hits.length < limit) {
+        notifyWarning();
+      }
       
     })
   }
@@ -54,6 +57,7 @@ async function onMoreImg() {
       creatMarkup(hits);
       if (hits.length < limit) {
         btnLoadMore.classList.add("is-hidden"); 
+        notifyWarning();
       }
     })
 
@@ -107,4 +111,6 @@ let galleryImg = new SimpleLightbox('.photo-card a', {
 galleryImg.refresh();
 
 }
-
+function notifyWarning() {
+  return Notify.warning("We're sorry, but you've reached the end of search results."); 
+}
