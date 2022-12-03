@@ -16,14 +16,14 @@ btnLoadMore.classList.add("is-hidden");
 form.addEventListener('submit', onSearch);
 btnLoadMore.addEventListener('click', onMoreImg);
 const limit = 40;
-  
+let showImage = 1;
 async function onSearch(evt) {
   evt.preventDefault();
-  
+  clearGalleryMarkup();
   
   newsApiService.query = evt.currentTarget.elements.searchQuery.value.trim();
-  console.log(newsApiService.query)
-
+  // console.log(newsApiService.query);
+  showImage = 1;
 
   if (newsApiService.query === '') {
     return Notify.info('Please enter the query parameters.')  
@@ -32,14 +32,14 @@ async function onSearch(evt) {
   
   newsApiService.resetPage();
   try {
-    await newsApiService.fetchImage().then(hits => {
-      clearGalleryMarkup();
-      creatMarkup(hits);
-                 
-      if (hits.length === limit) {
+    await newsApiService.fetchImage().then(data => {
+      
+      creatMarkup(data);
+      
+      if (data.hits.length === limit) {
       btnLoadMore.classList.remove("is-hidden");   
       }
-           
+                
     })
   }
     catch (err) {
@@ -50,13 +50,20 @@ async function onSearch(evt) {
 async function onMoreImg() {
    
   try {
-    await newsApiService.fetchImage().then(hits => {
-      creatMarkup(hits);
-      
-      if (hits.length < limit) {
+    
+    await newsApiService.fetchImage().then(data => {
+      creatMarkup(data);
+     
+      showImage += 1;  
+      console.log(showImage);
+      let quantityShow = Math.floor(data.totalHits / limit);
+      console.log(quantityShow);
+      if (showImage === quantityShow) {
         btnLoadMore.classList.add("is-hidden");
-       
+        Notify.warning("We're sorry, but you've reached the end of search results.");
+        return;
       }
+      
 
     })
 
@@ -69,8 +76,8 @@ function clearGalleryMarkup() {
 gallery.innerHTML = "";
 }
 
-function creatMarkup(hits) {
-  console.log(hits)
+function creatMarkup({ hits }) {
+  // console.log(hits)
   const markup = hits.map(({
     largeImageURL,
     webformatURL,

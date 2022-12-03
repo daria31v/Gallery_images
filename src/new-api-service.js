@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+
 export default class NewsApiService {
     
     constructor() {
@@ -18,24 +19,25 @@ export default class NewsApiService {
     
         try {
             const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${this.searchQuery}&${params}&per_page=${quantityImg}&page=${this.page}`);
-            console.log('response', response)
+            // console.log('response', response)
             const data = response.data;
-            console.log(data);
-            
+            // console.log(data);
+           
+            const quantityPages = Math.floor(data.totalHits / quantityImg);
+            console.log(quantityPages);
+
             if (data.total === 0) {
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             }
             
             else if (this.page === 1) {
-              console.log('INFO', Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`))
+                Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`);
             }
-            else if (data.hits.length < quantityImg) {
-                console.log('Warning', Notify.warning("We're sorry, but you've reached the end of search results.")) 
-            }
-
-              
+                                      
             this.page += 1;
-            return data.hits;
+            console.log(this.page);
+            return data;
+          
             
 
         } catch (err) {
