@@ -1,5 +1,6 @@
-## Images
-The functionality of this project is image search at the request of the user. The search is carried out on pixabay.com.
+## Gallery images
+The functionality of this project is image search at the request of the user. 
+The project is written in vanilla JavaScript, and user search queries (pixabay.com) and pagination are implemented.
 It is built using Parcel as a packager. It provides a starting point with some basic configurations and dependencies to get you up and running quickly.
 
 ## Installation

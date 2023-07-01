@@ -24,8 +24,7 @@ export default class NewsApiService {
             else if (this.page === 1) {
                 Notify.info(`Hooray! We found all ${data.total} and now we show you just ${data.totalHits} images.`);
             }                                      
-            this.page += 1;
-            console.log(this.page);
+            this.page += 1;            
             return data;   
 
         } catch (err) {

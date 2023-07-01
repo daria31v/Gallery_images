@@ -48,10 +48,8 @@ async function onMoreImg() {
   try {    
     await newsApiService.fetchImage().then(data => {
       creatMarkup(data);     
-      showImage += 1;  
-      console.log(showImage);
-      let quantityShow = Math.floor(data.totalHits / limit);
-      console.log(quantityShow);
+      showImage += 1;        
+      let quantityShow = Math.floor(data.totalHits / limit);      
       if (showImage === quantityShow) {
         btnLoadMore.classList.add("is-hidden");
         Notify.warning("We're sorry, but you've reached the end of search results.");
@@ -105,4 +103,3 @@ let galleryImg = new SimpleLightbox('.photo-card a', {
 });
 galleryImg.refresh();
 }
-  
