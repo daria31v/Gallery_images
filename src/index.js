@@ -22,7 +22,7 @@ async function onSearch(evt) {
   clearGalleryMarkup();
   
   newsApiService.query = evt.currentTarget.elements.searchQuery.value.trim();
-  // console.log(newsApiService.query);
+  
   showImage = 1;
 
   if (newsApiService.query === '') {
@@ -32,14 +32,11 @@ async function onSearch(evt) {
   
   newsApiService.resetPage();
   try {
-    await newsApiService.fetchImage().then(data => {
-      
-      creatMarkup(data);
-      
+    await newsApiService.fetchImage().then(data => {      
+      creatMarkup(data);      
       if (data.hits.length === limit) {
       btnLoadMore.classList.remove("is-hidden");   
-      }
-                
+      }                
     })
   }
     catch (err) {
@@ -47,13 +44,10 @@ async function onSearch(evt) {
         }
 }
 
-async function onMoreImg() {
-   
-  try {
-    
+async function onMoreImg() {   
+  try {    
     await newsApiService.fetchImage().then(data => {
-      creatMarkup(data);
-     
+      creatMarkup(data);     
       showImage += 1;  
       console.log(showImage);
       let quantityShow = Math.floor(data.totalHits / limit);
@@ -63,10 +57,7 @@ async function onMoreImg() {
         Notify.warning("We're sorry, but you've reached the end of search results.");
         return;
       }
-      
-
     })
-
   }
   catch (err) {
             console.error(err)
@@ -76,8 +67,7 @@ function clearGalleryMarkup() {
 gallery.innerHTML = "";
 }
 
-function creatMarkup({ hits }) {
-  // console.log(hits)
+function creatMarkup({ hits }) {  
   const markup = hits.map(({
     largeImageURL,
     webformatURL,
@@ -109,11 +99,10 @@ function creatMarkup({ hits }) {
 }).join('');
   gallery.insertAdjacentHTML('beforeend', markup);
 
-
 let galleryImg = new SimpleLightbox('.photo-card a', {
   captionDelay: 150,
   captionsData: 'alt'
 });
 galleryImg.refresh();
-
 }
+  
