@@ -2,10 +2,10 @@
   "name": "parcel-project-template",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://daria31v.github.io/Gallery_images",
+  "homepage": "https://daria31v.github.io/gallery_images",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /Gallery_images/"
+    "build": "parcel build src/*.html --public-url /gallery_images/"
   },
   "repository": {
     "type": "git",
